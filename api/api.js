@@ -1,6 +1,7 @@
 const express = require('express');
 const packageFile = require('../package.json');
 const info = require('./info');
+const jobs = require('./jobs');
 
 console.log('Running api.js');
 
@@ -13,6 +14,12 @@ router.get('/version', function (req, res) {
 router.get('/competitions', function (req, res) {
     info.getCompList(req, function (compList) {
         res.send(compList);
+    });
+});
+
+router.get('/scrape-database', function (req, res) {
+    jobs.scrapeWCADatabase(function (scrapeResponse) {
+        res.send(scrapeResponse);
     });
 });
 
