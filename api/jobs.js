@@ -1,4 +1,5 @@
 // Functions for regularly performing jobs
+// Using tsv version of the database since we're messing with the data before inserting it into our DB
 const WCA_DB_URL = "https://www.worldcubeassociation.org/results/misc/WCA_export.tsv.zip";
 const ZIPPED_TSV_FILE_NAME = 'WCA_export.tsv.zip';
 const RESULTS_FILE_NAME = 'WCA_export_Results.tsv';
@@ -11,9 +12,11 @@ const unzip = require('unzip');
 const fstream = require('fstream');
 const csv = require('comma-separated-values');
 
+const databaseConnection = require('database-connection');
+
 const exported = {};
 
-transferData = function (inputTSVSpath, outputDBConnection, transferDataCallback) {
+transferData = function (inputTSVSpath, transferDataCallback) {
     // For now, we're going to do this synchronously and on thread because it's simpler, the data isn't too big
     // and it makes running the callback after everything easier
     fs.readFile(path.join(inputTSVSpath, RESULTS_FILE_NAME), (err, data) => {
@@ -25,6 +28,9 @@ transferData = function (inputTSVSpath, outputDBConnection, transferDataCallback
                 cellDelimiter: '\t'
             }).parse();
         console.log(parsedData);
+
+        // TODO: Insert this data into the db (once we have a development DB set up)
+
         transferDataCallback();
     });
 };
@@ -59,7 +65,7 @@ exported.processWCADatabase = function (processWCADatabaseCallback) {
             readStream.on('close', function () {
                 console.log('Finished unzipping DB');
 
-                transferData(tempDirPath, null, function () {
+                transferData(tempDirPath, function () {
                     const tempFiles = fs.readdirSync(tempDirPath);
                     for (let i = 0; i < tempFiles.length; i++) {
                         const filePath = path.join(tempDirPath, tempFiles[i]);
@@ -68,16 +74,8 @@ exported.processWCADatabase = function (processWCADatabaseCallback) {
                             fs.unlinkSync(filePath);
                         }
                     }
-                    // fs.rmdirSync(tempDirPath);
 
-                    // TODO: Fix cleanup
-                    // const tempFiles2 = fs.readdirSync(tempDirPath);
-                    // for (let i = 0; i < tempFiles2.length; i++) {
-                    //     const filePath = path.join(tempDirPath, tempFiles2[i]);
-                    //     console.log(filePath);
-                    // }
-
-                    // cleanupDirectoryCallback();
+                    // TODO: Fix cleanup and safely run cleanupDirectoryCallback
                     processWCADatabaseCallback('Finished processing WCA database');
                 });
             });
