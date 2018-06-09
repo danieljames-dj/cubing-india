@@ -1,32 +1,45 @@
 // Functions for regularly performing jobs
-const WCA_DB_URL = "https://www.worldcubeassociation.org/results/misc/WCA_export.sql.zip";
-const ZIPPED_DB_FILE_NAME = 'wcadb.sql.zip';
-const UNZIPPED_DB_DIRECTORY_NAME = 'wcadb';
+const WCA_DB_URL = "https://www.worldcubeassociation.org/results/misc/WCA_export.tsv.zip";
+const ZIPPED_TSV_FILE_NAME = 'WCA_export.tsv.zip';
+const RESULTS_FILE_NAME = 'WCA_export_Results.tsv';
 
 const path = require('path');
 const tmp = require('tmp');
 const fs = require('fs');
-// const rimraf = require('rimraf');
 const download = require('download-file');
 const unzip = require('unzip');
 const fstream = require('fstream');
+const csv = require('comma-separated-values');
 
 const exported = {};
 
-exported.scrapeWCADatabase = function (callback) {
+transferData = function (inputTSVSpath, outputDBConnection, transferDataCallback) {
+    // For now, we're going to do this synchronously and on thread because it's simpler, the data isn't too big
+    // and it makes running the callback after everything easier
+    fs.readFile(path.join(inputTSVSpath, RESULTS_FILE_NAME), (err, data) => {
+        if (err) throw err;
+        data = data.toString();
+        const parsedData = new csv(
+            data, {
+                header: true,
+                cellDelimiter: '\t'
+            }).parse();
+        console.log(parsedData);
+        transferDataCallback();
+    });
+};
+
+exported.processWCADatabase = function (processWCADatabaseCallback) {
     tmp.dir(function _tempDirCreated(err, tempDirPath, cleanupDirectoryCallback) {
         if (err) throw err;
 
-
         const options = {
             directory: tempDirPath,
-            filename: ZIPPED_DB_FILE_NAME
+            filename: ZIPPED_TSV_FILE_NAME
         };
 
-        const zippedDBPath = path.join(tempDirPath, ZIPPED_DB_FILE_NAME);
-        const unzippedDBDirPath = path.join(tempDirPath, UNZIPPED_DB_DIRECTORY_NAME);
+        const zippedDBPath = path.join(tempDirPath, ZIPPED_TSV_FILE_NAME);
 
-        fs.mkdirSync(unzippedDBDirPath);
 
         download(WCA_DB_URL, options, function (err) {
             if (err) {
@@ -35,9 +48,9 @@ exported.scrapeWCADatabase = function (callback) {
             }
 
             const readStream = fs.createReadStream(zippedDBPath);
-            const writeStream = fstream.Writer(unzippedDBDirPath);
+            const writeStream = fstream.Writer(tempDirPath);
 
-            console.log('Ready to pipe: ' + zippedDBPath + ' to ' + unzippedDBDirPath);
+            console.log('Ready to pipe: ' + zippedDBPath + ' to ' + tempDirPath);
 
             readStream
                 .pipe(unzip.Parse())
@@ -45,15 +58,28 @@ exported.scrapeWCADatabase = function (callback) {
 
             readStream.on('close', function () {
                 console.log('Finished unzipping DB');
-                // rimraf(unzippedDBDirPath, function () {
-                //     console.log('Finished nuking DB');
-                //     cleanupDirectoryCallback();
-                //     callback('Finished processing WCA database');
-                // });
 
-                // // TODO: Fix cleanup crashing issue
-                // cleanupDirectoryCallback(unsafeCleanup=true);
-                callback('Finished processing WCA database');
+                transferData(tempDirPath, null, function () {
+                    const tempFiles = fs.readdirSync(tempDirPath);
+                    for (let i = 0; i < tempFiles.length; i++) {
+                        const filePath = path.join(tempDirPath, tempFiles[i]);
+                        if (fs.exists(filePath)) {
+                            console.log('removing' + filePath);
+                            fs.unlinkSync(filePath);
+                        }
+                    }
+                    // fs.rmdirSync(tempDirPath);
+
+                    // TODO: Fix cleanup
+                    // const tempFiles2 = fs.readdirSync(tempDirPath);
+                    // for (let i = 0; i < tempFiles2.length; i++) {
+                    //     const filePath = path.join(tempDirPath, tempFiles2[i]);
+                    //     console.log(filePath);
+                    // }
+
+                    // cleanupDirectoryCallback();
+                    processWCADatabaseCallback('Finished processing WCA database');
+                });
             });
         });
     });

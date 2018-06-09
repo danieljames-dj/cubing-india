@@ -18,7 +18,7 @@ router.get('/competitions', function (req, res) {
 });
 
 router.get('/scrape-database', function (req, res) {
-    jobs.scrapeWCADatabase(function (scrapeResponse) {
+    jobs.processWCADatabase(function (scrapeResponse) {
         res.send(scrapeResponse);
     });
 });
