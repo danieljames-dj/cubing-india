@@ -13,6 +13,7 @@ if (fs.existsSync(databaseCredentialsFilePath)) {
 if (process.env.DATABASE && process.env.DATABASE_USERNAME && process.env.DATABASE_PASSWORD) {
     databaseCredentials = {
         "database": process.env.DATABASE,
+        "host": process.env.DATABASE_HOST,
         "username": process.env.DATABASE_USERNAME,
         "password": process.env.DATABASE_PASSWORD
     }

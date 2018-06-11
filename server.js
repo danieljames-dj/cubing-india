@@ -4,7 +4,7 @@ const path = require('path');
 const http = require('http');
 
 // Get our API routes
-const api = require(path.join(__dirname, 'api', 'api.js'));
+const api = require(path.join(__dirname, 'services', 'api.js'));
 
 const app = express();
 

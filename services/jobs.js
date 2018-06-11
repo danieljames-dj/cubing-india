@@ -12,7 +12,7 @@ const unzip = require('unzip');
 const fstream = require('fstream');
 const csv = require('comma-separated-values');
 
-const databaseConnection = require('database-connection');
+const databaseConnection = require('./database-connection');
 
 const exported = {};
 
