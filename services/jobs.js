@@ -28,8 +28,12 @@ transferData = function (inputTSVSpath, transferDataCallback) {
                 cellDelimiter: '\t'
             }).parse();
 
-        db.createComps(parsedData.filter(comp => comp['countryId'] === 'India').slice(0, 50), transferDataCallback);
-        // TODO: remove .slice() once we have actual space
+        console.log(parsedData.filter(comp => comp['countryId'] === 'India').length);
+        db.createComps(parsedData.filter(
+            comp => comp['countryId'] === 'India'), // only get comps from India
+            transferDataCallback
+        );
+        // NOTE: We are assumings comps are immutable - we will have to figure out what to do about changes
     });
 };
 

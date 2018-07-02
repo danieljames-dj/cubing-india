@@ -20,7 +20,6 @@ exported.createComps = function (comps, callback) {
             comp_id: comp.id, // we need to use comp_id instead of id because sequelize uses id
             name: comp.name,
             city_name: comp.cityName,
-            country_id: comp.countryId,
             information: comp.information,
             year: comp.year,
             month: comp.month,

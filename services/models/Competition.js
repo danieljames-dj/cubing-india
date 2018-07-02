@@ -4,7 +4,6 @@ module.exports = {
     comp_id: DataTypes.STRING,
     name: DataTypes.STRING,
     city_name: DataTypes.STRING,
-    country_id: DataTypes.STRING,
     information: DataTypes.STRING,
     year: DataTypes.INTEGER,
     month: DataTypes.INTEGER,
