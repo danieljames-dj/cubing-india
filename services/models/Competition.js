@@ -1,7 +1,7 @@
 const sequelize = require('sequelize');
 const DataTypes = sequelize.DataTypes;
 module.exports = {
-    comp_id: DataTypes.STRING,
+    comp_id: {type: DataTypes.STRING, primaryKey: true},
     name: DataTypes.STRING,
     city_name: DataTypes.STRING,
     information: DataTypes.STRING,

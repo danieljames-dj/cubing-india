@@ -38,7 +38,7 @@ exported.createComps = function (comps, callback) {
             longitude: comp.longitude
         }
     });
-    models['Competition'].bulkCreate(insertableComps).then(() =>
+    models['Competition'].bulkCreate(insertableComps, {updateOnDuplicate: true}).then(() =>
         callback('Triggered bulk insertion of ' + insertableComps.length + ' competitions')
     );
 };
