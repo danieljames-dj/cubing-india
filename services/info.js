@@ -1,10 +1,16 @@
 // Anything we want to expose to end users
-const databaseConnection = require('./database-connection');
+const db = require('./database-interface');
 
 const exported = {};
 
-exported.getCompList = function(req, callback) {
-    databaseConnection.get('competitions', req, function (databaseResponse) {
+exported.getCompList = function(callback) {
+    db.getCompList({}, function (databaseResponse) {
+        callback(databaseResponse);
+    })
+};
+
+exported.getComp = function(compId, callback) {
+    db.getCompList({comp_id: compId}, function (databaseResponse) {
         callback(databaseResponse);
     })
 };

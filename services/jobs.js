@@ -2,7 +2,7 @@
 // Using tsv version of the database since we're messing with the data before inserting it into our DB
 const WCA_DB_URL = "https://www.worldcubeassociation.org/results/misc/WCA_export.tsv.zip";
 const ZIPPED_TSV_FILE_NAME = 'WCA_export.tsv.zip';
-const RESULTS_FILE_NAME = 'WCA_export_Results.tsv';
+const COMPS_FILE_NAME = 'WCA_export_Competitions.tsv';
 
 const path = require('path');
 const tmp = require('tmp');
@@ -12,14 +12,14 @@ const unzip = require('unzip');
 const fstream = require('fstream');
 const csv = require('comma-separated-values');
 
-const databaseConnection = require('./database-connection');
+const db = require('./database-interface');
 
 const exported = {};
 
 transferData = function (inputTSVSpath, transferDataCallback) {
     // For now, we're going to do this synchronously and on thread because it's simpler, the data isn't too big
     // and it makes running the callback after everything easier
-    fs.readFile(path.join(inputTSVSpath, RESULTS_FILE_NAME), (err, data) => {
+    fs.readFile(path.join(inputTSVSpath, COMPS_FILE_NAME), (err, data) => {
         if (err) throw err;
         data = data.toString();
         const parsedData = new csv(
@@ -27,11 +27,9 @@ transferData = function (inputTSVSpath, transferDataCallback) {
                 header: true,
                 cellDelimiter: '\t'
             }).parse();
-        console.log(parsedData);
 
-        // TODO: Insert this data into the db (once we have a development DB set up)
-
-        transferDataCallback();
+        db.createComps(parsedData.filter(comp => comp['countryId'] === 'India').slice(0, 50), transferDataCallback);
+        // TODO: remove .slice() once we have actual space
     });
 };
 
@@ -65,7 +63,7 @@ exported.processWCADatabase = function (processWCADatabaseCallback) {
             readStream.on('close', function () {
                 console.log('Finished unzipping DB');
 
-                transferData(tempDirPath, function () {
+                transferData(tempDirPath, function(transferDataResult) {
                     const tempFiles = fs.readdirSync(tempDirPath);
                     for (let i = 0; i < tempFiles.length; i++) {
                         const filePath = path.join(tempDirPath, tempFiles[i]);
@@ -76,7 +74,7 @@ exported.processWCADatabase = function (processWCADatabaseCallback) {
                     }
 
                     // TODO: Fix cleanup and safely run cleanupDirectoryCallback
-                    processWCADatabaseCallback('Finished processing WCA database');
+                    processWCADatabaseCallback(transferDataResult);
                 });
             });
         });

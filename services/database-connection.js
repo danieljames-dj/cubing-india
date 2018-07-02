@@ -2,8 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const sequelize = require('sequelize');
 
-const exported = {};
-
 let databaseCredentials;
 // Look for database credentials in file
 const databaseCredentialsFilePath = path.join('credentials', 'database-connection-credentials.json');
@@ -16,7 +14,8 @@ if (process.env.DATABASE && process.env.DATABASE_USERNAME && process.env.DATABAS
         "database": process.env.DATABASE,
         "host": process.env.DATABASE_HOST,
         "username": process.env.DATABASE_USERNAME,
-        "password": process.env.DATABASE_PASSWORD
+        "password": process.env.DATABASE_PASSWORD,
+        "port": process.env.DATABASE_PORT
     }
 }
 
@@ -26,13 +25,11 @@ if (!databaseCredentials) {
     // throw new Error(errorMessage);
 }
 
-console.log(databaseCredentials);
-
 const connection = new sequelize(databaseCredentials.database, databaseCredentials.username, databaseCredentials.password, {
     host: databaseCredentials.host,
-    dialect: 'postgres', // Assuming Postgres for now since no one told me what type of database we're using
+    dialect: 'mysql', // Assuming mysql for now since no one told me what type of database we're using
     operatorsAliases: false,
-
+    port: databaseCredentials.port,
     pool: {
         max: 5,
         min: 0,
@@ -50,8 +47,4 @@ connection
         console.error('Unable to connect to the database:', err);
     });
 
-exported.get = function (table, request, callback) {
-    callback("Nothing in database yet bro")
-};
-
-module.exports = exported;
+module.exports = connection;

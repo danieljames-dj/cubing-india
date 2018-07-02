@@ -11,8 +11,14 @@ router.get('/version', function (req, res) {
     res.send(packageFile.version);
 });
 
-router.get('/competitions', function (req, res) {
-    info.getCompList(req, function (compList) {
+router.get('/competition-list', function (req, res) {
+    info.getCompList(function (compList) {
+        res.send(compList);
+    });
+});
+
+router.get('/competition/:id', function (req, res) {
+    info.getComp(req.params.id, function (compList) {
         res.send(compList);
     });
 });
