@@ -71,7 +71,7 @@ exported.processWCADatabase = function (processWCADatabaseCallback) {
                     const tempFiles = fs.readdirSync(tempDirPath);
                     for (let i = 0; i < tempFiles.length; i++) {
                         const filePath = path.join(tempDirPath, tempFiles[i]);
-                        if (fs.exists(filePath)) {
+                        if (fs.existsSync(filePath)) {
                             console.log('removing' + filePath);
                             fs.unlinkSync(filePath);
                         }
