@@ -30,6 +30,12 @@ const connection = new sequelize(databaseCredentials.database, databaseCredentia
     dialect: 'mysql', // Assuming mysql for now since no one told me what type of database we're using
     operatorsAliases: false,
     port: databaseCredentials.port,
+    define: {
+        charset: 'utf8',
+        dialectOptions: {
+            collate: 'utf8mb4_unicode_ci'
+        }
+    },
     pool: {
         max: 5,
         min: 0,
