@@ -8,5 +8,5 @@ xhttp.onreadystatechange = function () {
         console.log(this.responseText);
     }
 };
-xhttp.open("GET", "/api/competitions", true);
+xhttp.open("GET", "/api/competition-list", true);
 xhttp.send();
