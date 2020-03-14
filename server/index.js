@@ -16,7 +16,7 @@ const initialize = async() => {
 
     require('./api-connector').connect(app);
 
-    const buildPath = path.join(__dirname, "../client/dist/client");
+    const buildPath = path.join(__dirname, "../client/dist/CubingIndia");
     app.use(express.static(buildPath));
     app.get('/*', (req, res) => {
         res.sendFile(path.join(buildPath, 'index.html'));
