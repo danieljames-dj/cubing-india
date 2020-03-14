@@ -1,0 +1,63 @@
+<div>
+  <mat-toolbar
+    class="primary"
+    fxShow="true"
+    fxHide.lt-lg="true">
+    <h1 class="heading" [routerLink]="[appRoutes[0].path]">Cubing India</h1>
+    <span class="example-spacer"></span>
+    <div>
+      <span
+        *ngFor="let page of appRoutes"
+        [ngClass]="{ 'top-tab': true }"
+        [routerLink]="[page.path]"
+        routerLinkActive="accent"
+      >
+        {{ page.title }}</span
+      >
+    </div>
+  </mat-toolbar>
+  <mat-sidenav-container
+    fxFlexFill class="example-container">
+    <mat-sidenav
+      #sidenav
+      fxLayout="column"
+      mode="over"
+      opened="false"
+      fxHide.gt-md="true"
+      (click)="sidenav.toggle()"
+    >
+      <div fxLayout="column" class="primary">
+        <span
+          *ngFor="let page of appRoutes"
+          routerLinkActive="accent"
+          [routerLink]="[page.path]"
+          [ngClass]="{ 'top-tab': true }"
+          >{{ page.title }}</span
+        >
+      </div>
+    </mat-sidenav>
+    <mat-sidenav-content
+      fxFlexFill>
+      <table
+        class="primary"
+        fxShow="true"
+        fxHide.gt-md="true"
+        style="width:100%; vertical-align: middle;"
+      >
+        <tr>
+          <th style="display: flex;">
+            <button mat-icon-button (click)="sidenav.toggle()">
+              <mat-icon>menu</mat-icon>
+            </button>
+          </th>
+          <th style="width: 100%;">
+            <h1 class="heading heading-sidenav primary" [routerLink]="[appRoutes[0].path]">
+              Cubing India
+            </h1>
+          </th>
+        </tr>
+      </table>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

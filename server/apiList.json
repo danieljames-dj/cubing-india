@@ -1,0 +1,8 @@
+{
+	"competitions":
+		[{
+			"route": "/getCompetitions",
+			"path": "./routes/competitions/getCompetitions.js",
+			"method": "GET"
+        }]
+}

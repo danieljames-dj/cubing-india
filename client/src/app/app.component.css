@@ -1,0 +1,75 @@
+.heading {
+    padding: 7px 32px 7px 14px;
+    cursor: pointer;
+    font-size: 27px;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.heading-sidenav {
+    width: 100%;
+    margin: auto;
+    text-align: left;
+}
+
+.top-tab {
+    font-size: 20px;
+    padding: 7px 14px;
+    cursor: pointer;
+}
+
+.top-tab-right {
+    font-size: 22px;
+    padding: 7px 14px;
+    cursor: pointer;
+}
+
+.top-tab:focus {
+    outline: none;
+}
+
+.accent {
+    background-color: #2979ff;
+}
+
+div {
+    overflow: inherit;
+}
+
+mat-card img {
+  width: 20%;
+  height: 20%;
+}
+
+.mat-sidenav-container {
+  min-height: 100vh !important;
+}
+
+.mat-toolbar {
+  height: 7vh;
+}
+
+.primary {
+    background-color: #2962ff;
+    color: white;
+}
+
+.mat-sidenav-content {
+  font-size: 200%;
+  text-align: center;
+}
+
+button:focus {
+  outline: none;
+  border: 0;
+}
+
+.container-fluid,
+.container-lg,
+.container-md,
+.container-sm,
+.container-xl {
+  padding: 0px !important;
+}

@@ -1,0 +1,33 @@
+<angular-image-slider
+  [autoRotate]="true"
+  [autoRotateAfter]="5000"
+  [autoRotateRight]="false"
+  [images]="imagesUrl">
+</angular-image-slider>
+
+<div class="container">
+  <div class="grid-row">
+    <div class="grid-item">
+      <mat-card class="example-card">
+      <mat-card-content>
+        <mat-card-title>Welcome to Cubing India</mat-card-title>
+        <mat-card-subtitle>Cubing India aims to support various cubing competitions in India. We aim to bring together number of local cubing communities of different regions. Indian Nationals is the largest most soughed speed cubing competition of the country each year, organized and supported by a team of dedicated volunteers. Hundreds of Indian & International Speed cubers gather together in the name of a competition for a fun & knowledgeable weekend of solving twisted puzzles. We organize and help local cubing committees across the country giving young minds a chance to increase their spatial IQ and win a title. Join us to be a part of the cubing community in India.</mat-card-subtitle>
+      </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="grid-row">
+    <div class="grid-item">
+      <mat-card class="example-card">
+      <mat-card-content>
+        <mat-card-title>Upcoming WCA Competitions in India (includes some past competitions as well, will remove later)</mat-card-title>
+        <mat-card-subtitle>
+          <ul>
+            <li *ngFor="let competition of competitions">{{competition.name}}</li>
+          </ul>
+        </mat-card-subtitle>
+      </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

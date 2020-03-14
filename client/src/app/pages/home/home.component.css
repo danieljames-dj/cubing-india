@@ -1,0 +1,52 @@
+mat-card-title {
+    text-align: left;
+}
+
+mat-card-subtitle {
+    display: block;
+    display: -webkit-box;
+    word-wrap: break-word;
+    text-align: justify;
+    font-size: 18px;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.container {
+  margin: 0 auto;
+}
+
+.grid-row {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+.grid-item {
+  flex-basis: 100%;
+  width: 500px;
+  position: relative;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.grid-row a {
+  text-decoration: none;
+}
+
+.wrapping-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+  color: currentColor;
+}
+
+.grid-item-container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
