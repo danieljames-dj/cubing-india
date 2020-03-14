@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
 
   getCompetitions() {
     const params = new HttpParams();
-    this.httpClient.get('http://localhost:3000/api/competitions/getCompetitions', {params: params})
+    this.httpClient.get('/api/competitions/getCompetitions', {params: params})
     .subscribe((res: {competitions: [{name, city, start_date, end_date, website}]}) => {
       // check if the response is correct
       res.competitions.forEach(competition => {
