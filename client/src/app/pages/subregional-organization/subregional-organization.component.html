@@ -1,1 +1,25 @@
-<p>subregional-organization works!</p>
+<h3>Sub Regional Organizations of India</h3>
+<p>The following are few of the sub-regional organizations of India. In case you need any assistance in learning Cubing or want to know about competitions, you can contact the sub-regional organization of your region.</p>
+<table mat-table [dataSource]="subregional_organizations">
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Organization</th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="regions">
+    <th mat-header-cell *matHeaderCellDef>Regions covered</th>
+    <td mat-cell *matCellDef="let element"> {{element.regions}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="contact">
+    <th mat-header-cell *matHeaderCellDef>Contact</th>
+    <td mat-cell *matCellDef="let element"> {{element.contact}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

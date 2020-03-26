@@ -7,6 +7,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SubregionalOrganizationComponent implements OnInit {
 
+  displayedColumns: string[] = ['name', 'regions', 'contact'];
+  subregional_organizations = [
+    {
+      name: "Speed Cubing Bangalore",
+      regions: "Karnataka",
+      contact: "speedcubingbangalore@gmail.com"
+    },
+    {
+      name: "Capital Cubing",
+      regions: "Delhi",
+      contact: "capitalcubing@gmail.com"
+    },
+    {
+      name: "Chennai Cubing Club",
+      regions: "Tamil Nadu",
+      contact: "chennaicubingclub@gmail.com"
+    },
+    {
+      name: "Cubing Kerala",
+      regions: "Kerala",
+      contact: "keralaspeedcubing@gmail.com"
+    }
+  ]
+
   constructor() { }
 
   ngOnInit() {
